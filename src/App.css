@@ -1,0 +1,48 @@
+* {
+  transition: all 0.3s ease-in-out;
+}
+
+:root {
+  font-size: clamp(12px, 2.5vw, 18px);
+  font-family: sans-serif;
+  --red-marvel: #ee171f;
+}
+
+body {
+  height: 100vh;
+  background-color: black;
+  color: white;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* root has always a header then a main */
+#root {
+  display: flex;
+  flex-direction: column;
+  main
+  {
+    flex: 1;
+  }
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+h2 {
+  font-size: 2rem;
+  padding: 2rem 0;
+}

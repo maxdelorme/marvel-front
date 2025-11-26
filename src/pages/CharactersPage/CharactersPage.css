@@ -1,0 +1,19 @@
+.loading {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+section {
+  padding: 1rem;
+}
+
+.grid {
+  /* @see https://css-tricks.com/books/greatest-css-tricks/flexible-grids/ */
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}

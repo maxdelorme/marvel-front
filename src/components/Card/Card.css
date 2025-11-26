@@ -1,0 +1,43 @@
+.card {
+  container-type: inline-size;
+  &.character {
+    cursor: pointer;
+  }
+  
+  .wrapper {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-direction: column;
+    .details {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      flex: 1;
+    }
+    
+    img {
+      min-width: 150px;
+      object-fit: contain;
+      flex: 1;
+    }
+    
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .desc {
+      text-align: justify;
+    }
+  }
+  
+}
+
+/* If the container is larger than 400px */
+@container (width > 300px) {
+  .card .wrapper {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
