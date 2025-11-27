@@ -1,7 +1,8 @@
 import logo from "@/assets/img/logo.png";
 import "./header.css";
 import { Link, NavLink } from "react-router-dom";
-import { IoHeartSharp } from "react-icons/io5";
+import { IoHeart } from "react-icons/io5";
+import { useState } from "react";
 
 const Header = () => {
   return (
@@ -14,7 +15,7 @@ const Header = () => {
           <NavLink to="/">Personnages</NavLink>
           <NavLink to="/comics">comics</NavLink>
           <NavLink to="/favorites">
-            <IoHeartSharp /> Favorites
+            <IoHeart /> Favorites
           </NavLink>
         </nav>
       </div>

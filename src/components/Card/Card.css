@@ -25,6 +25,10 @@
     h3 {
       font-size: 1.5rem;
       font-weight: 600;
+      svg {
+        color: var(--primary);
+        vertical-align: bottom;
+      }
     }
     
     .desc {
