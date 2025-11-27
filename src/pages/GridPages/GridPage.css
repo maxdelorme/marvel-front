@@ -30,7 +30,6 @@ section {
     top: var(--header-height);
     background-color: #00000078;
     backdrop-filter: blur(5px);
-    background-color: transparent;
     label {
       flex: 3;
     }
