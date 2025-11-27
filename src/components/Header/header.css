@@ -6,7 +6,7 @@ header {
   z-index: 10000;
   /* flex: 1 0 auto; */
   .container {
-    height: max(5rem,60px);
+    height: var(--header-height);
     display: flex;
     justify-content: space-between;
     align-items: center;
