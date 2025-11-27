@@ -27,7 +27,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
     nbPages = Math.ceil(data.count / pageSize);
 
     sanitizePage = (page) => {
-      return Math.min(nbPages, Math.max(1, page));
+      return Math.min(Math.max(1, nbPages), Math.max(1, page));
     };
   }
   useEffect(() => {
