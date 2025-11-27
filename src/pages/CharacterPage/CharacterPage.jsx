@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { backURL } from "../../utils/settings";
 import Card from "../../components/Card/Card";
+import CardChar from "../../components/Card/CardChar";
 
 const CharacterPage = () => {
   const { id } = useParams();
@@ -40,11 +41,11 @@ const CharacterPage = () => {
     <p className="loading">Chargement en cours...</p>
   ) : (
     <section>
-      <Card item={data} type="character"></Card>
+      <CardChar item={data}></CardChar>
       <h2>Apparait dans les Comics suivants :</h2>
       <div className="grid">
         {data.comicDetails.map((item, index) => (
-          <Card key={index} item={item} type="comic" />
+          <Card key={index} item={item} />
         ))}
       </div>
     </section>

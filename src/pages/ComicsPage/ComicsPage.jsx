@@ -29,7 +29,7 @@ const ComicsPage = () => {
   ) : (
     <section className="grid">
       {data.results.map((item, index) => {
-        return <Card key={index} item={item} type="comic"></Card>;
+        return <Card key={index} item={item}></Card>;
       })}
     </section>
   );

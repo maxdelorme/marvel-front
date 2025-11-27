@@ -4,6 +4,7 @@ import axios from "axios";
 import { backURL } from "../../utils/settings";
 import Card from "../../components/Card/Card";
 import { IoIosSearch } from "react-icons/io";
+import CardChar from "../../components/Card/CardChar";
 
 const CharactersPage = () => {
   const [data, setData] = useState(null);
@@ -47,7 +48,7 @@ const CharactersPage = () => {
       </label>
       <div className="grid">
         {data.results.map((item, index) => {
-          return <Card key={index} item={item} type="character"></Card>;
+          return <CardChar key={index} item={item} />;
         })}
       </div>
     </section>
