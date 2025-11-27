@@ -25,6 +25,7 @@
     h3 {
       font-size: 1.5rem;
       font-weight: 600;
+      cursor: pointer;
       svg {
         color: var(--primary);
         vertical-align: bottom;
