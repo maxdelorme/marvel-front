@@ -6,6 +6,7 @@ import { IoIosSearch } from "react-icons/io";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { IoRemoveCircleOutline } from "react-icons/io5";
 import { useSearchParams } from "react-router-dom";
+import handleChange from "../../../../../../S6 - React/J3 - router/Exercices/1-vinted/src/utils/handleChange";
 
 const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
   const [data, setData] = useState(null);
@@ -15,20 +16,35 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
   const querySearch = currentQueryParameters.get("search");
   const [search, setSearch] = useState(querySearch || "");
   const queryPage = currentQueryParameters.get("page");
-  const [page, setPage] = useState(queryPage || 1);
+  const [page, setPage] = useState(Number(queryPage) || 1);
 
   let nbPages = 0;
 
   let isLoading = Boolean(!data);
 
+  let sanitizePage;
+  if (!isLoading) {
+    nbPages = Math.ceil(data.count / pageSize);
+
+    sanitizePage = (page) => {
+      return Math.min(nbPages, Math.max(1, page));
+    };
+  }
   useEffect(() => {
     const getData = async () => {
       try {
-        const skip = pageSize * (page - 1);
+        const SanitizedPage = sanitizePage
+          ? sanitizePage(Number(page))
+          : Number(page);
+        const skip = Number(pageSize * (SanitizedPage - 1));
+        const query =
+          backURL +
+          `${pathSearch}=${encodeURIComponent(
+            search
+          )}&skip=${skip}&limit=${pageSize}`;
+        console.log(query);
         // va chercher les data sur le back
-        const { data } = await axios.get(
-          backURL + `${pathSearch}=${search}&skip=${skip}&limit=${pageSize}`
-        );
+        const { data } = await axios.get(query);
         setData(data);
       } catch (error) {
         console.log(
@@ -41,17 +57,14 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
     getData();
   }, [search, page]);
 
-  const onPageChange = (page) => {
+  const handleChangePage = (page) => {
+    page = sanitizePage(Number(page));
     setPage(page);
     setQueryParams((prev) => {
       prev.set("page", page);
       return prev;
     });
   };
-
-  if (!isLoading) {
-    nbPages = Math.ceil(data.count / pageSize);
-  }
 
   return isLoading ? (
     <p className="loading">Chargement en cours...</p>
@@ -65,11 +78,12 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
             onChange={(event) => {
               const search = event.target.value;
               setSearch(search);
+              setPage(1);
               setQueryParams((prev) => {
                 prev.set("search", search);
+                prev.set("page", 1);
                 return prev;
               });
-              onPageChange(1);
             }}
             placeholder={placeholder}
           ></input>
@@ -77,17 +91,23 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
         </label>
         <div className="pages">
           Page <span className="pageNumber">{page}</span>:&nbsp;1
-          <IoRemoveCircleOutline onClick={() => setPage(page - 1)} />
+          <IoRemoveCircleOutline
+            onClick={() => handleChangePage(page - 1)}
+            className={page === 1 && "disabled"}
+          />
           <input
             type="range"
             min="1"
             max={nbPages}
             value={page}
             onChange={(event) => {
-              onPageChange(event.target.value);
+              handleChangePage(event.target.value);
             }}
           />
-          <IoAddCircleOutline onClick={() => setPage(page + 1)} />
+          <IoAddCircleOutline
+            onClick={() => handleChangePage(page + 1)}
+            className={page === nbPages && "disabled"}
+          />
           {nbPages}
         </div>
       </nav>

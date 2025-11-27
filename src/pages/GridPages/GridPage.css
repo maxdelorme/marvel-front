@@ -105,6 +105,10 @@ section {
       
       svg {
         cursor: pointer;
+        &.disabled {
+          cursor: default;
+          color: rgb(75, 75, 75);
+        }
       }
       
       --track-height: 0px;
@@ -115,7 +119,7 @@ section {
         background: transparent;
         width: 10rem;
         height: var(--track-height);
-        cursor: pointer;
+        cursor: ew-resize;
         flex: 1;
         border-bottom: 1px dashed var(--primary);
       }
