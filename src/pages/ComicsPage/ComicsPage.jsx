@@ -13,7 +13,6 @@ const ComicsPage = () => {
         // va chercher les data sur le back
         const { data } = await axios.get(backURL + "/proxy/comics");
         setData(data);
-        console.log(data);
       } catch (error) {
         console.log(
           error.reponse ? error.response.data.message : error.message

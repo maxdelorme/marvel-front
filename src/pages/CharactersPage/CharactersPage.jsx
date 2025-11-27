@@ -20,7 +20,6 @@ const CharactersPage = () => {
           backURL + "/proxy/characters?" + "name=" + search
         );
         setData(data);
-        console.log(data);
       } catch (error) {
         console.log(
           error.reponse ? error.response.data.message : error.message

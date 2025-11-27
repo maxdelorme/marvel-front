@@ -22,11 +22,9 @@ const CharacterPage = () => {
         data.comicDetails = [];
         for (let comic of data.comics) {
           const response = await axios.get(backURL + "/proxy/comic/" + comic);
-          console.log("comic", response.data);
           data.comicDetails.push(response.data);
         }
         setData(data);
-        console.log("data", data);
       } catch (error) {
         console.log(
           error.reponse ? error.response.data.message : error.message
