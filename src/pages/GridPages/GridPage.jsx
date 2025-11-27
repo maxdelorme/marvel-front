@@ -74,8 +74,8 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
         </div>
       </nav>
       <div className="grid">
-        {data.results.map((item, index) => {
-          return <ElementCard key={index} item={item} />;
+        {data.results.map((item) => {
+          return <ElementCard key={item._id} item={item} />;
         })}
       </div>
     </section>
