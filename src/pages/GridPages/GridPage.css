@@ -18,7 +18,7 @@ section {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
-.charactersList {
+.cardList {
   nav {
     display: flex;
     flex-direction: column;
@@ -142,7 +142,7 @@ section {
 }
 
 @media (width > 768px ) {
-  .charactersList nav {
+  .cardList nav {
     flex-direction: row;
   }
 }
