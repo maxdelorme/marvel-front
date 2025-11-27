@@ -92,7 +92,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
         <div className="pages">
           Page <span className="pageNumber">{page}</span>:&nbsp;1
           <IoRemoveCircleOutline
-            onClick={() => handleChangePage(page - 1)}
+            onClick={() => page !== 1 && handleChangePage(page - 1)}
             className={page === 1 && "disabled"}
           />
           <input
@@ -105,7 +105,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
             }}
           />
           <IoAddCircleOutline
-            onClick={() => handleChangePage(page + 1)}
+            onClick={() => page !== nbPages && handleChangePage(page + 1)}
             className={page === nbPages && "disabled"}
           />
           {nbPages}
