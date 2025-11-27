@@ -5,19 +5,21 @@ import { backURL } from "../../utils/settings";
 import { IoIosSearch } from "react-icons/io";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { IoRemoveCircleOutline } from "react-icons/io5";
+import { useSearchParams } from "react-router-dom";
+
 const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
   const [data, setData] = useState(null);
-  const [search, setSearch] = useState("");
   const pageSize = 100;
-  const [page, setPage] = useState(1);
+  const [currentQueryParameters, setQueryParams] = useSearchParams();
+
+  const querySearch = currentQueryParameters.get("search");
+  const [search, setSearch] = useState(querySearch || "");
+  const queryPage = currentQueryParameters.get("page");
+  const [page, setPage] = useState(queryPage || 1);
+
   let nbPages = 0;
 
   let isLoading = Boolean(!data);
-
-  useEffect(() => {
-    // when search change we reset the page to 1
-    setPage(1);
-  }, [search]);
 
   useEffect(() => {
     const getData = async () => {
@@ -39,6 +41,14 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
     getData();
   }, [search, page]);
 
+  const onPageChange = (page) => {
+    setPage(page);
+    setQueryParams((prev) => {
+      prev.set("page", page);
+      return prev;
+    });
+  };
+
   if (!isLoading) {
     nbPages = Math.ceil(data.count / pageSize);
   }
@@ -53,7 +63,13 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
             type="text"
             value={search}
             onChange={(event) => {
-              setSearch(event.target.value);
+              const search = event.target.value;
+              setSearch(search);
+              setQueryParams((prev) => {
+                prev.set("search", search);
+                return prev;
+              });
+              onPageChange(1);
             }}
             placeholder={placeholder}
           ></input>
@@ -67,7 +83,9 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
             min="1"
             max={nbPages}
             value={page}
-            onChange={(event) => setPage(Number(event.target.value))}
+            onChange={(event) => {
+              onPageChange(event.target.value);
+            }}
           />
           <IoAddCircleOutline onClick={() => setPage(page + 1)} />
           {nbPages}
