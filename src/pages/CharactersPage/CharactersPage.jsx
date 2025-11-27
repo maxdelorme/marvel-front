@@ -43,7 +43,7 @@ const CharactersPage = () => {
             setSearch(event.target.value);
           }}
           placeholder="Chercher votre personnage favoris"
-        />
+        ></input>
         <IoIosSearch />
       </label>
       <div className="grid">
