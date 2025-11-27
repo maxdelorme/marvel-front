@@ -44,5 +44,8 @@
   .card .wrapper {
     flex-direction: row;
     align-items: flex-start;
+    img {
+      max-height: min(324px,calc(100vh - var(--header-height) - 2rem));
+    }
   }
 }
