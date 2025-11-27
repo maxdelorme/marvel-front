@@ -91,7 +91,7 @@ section {
       padding: 0.1rem 0.5rem;
       border-radius: 1rem;
       .pageNumber {
-        flex: 1;
+        
         padding: 0.1rem 0.2rem;
         display: flex;
         justify-content: center;
@@ -152,5 +152,8 @@ section {
 @media (width > 768px ) {
   .cardList nav {
     flex-direction: row;
+    .pages .pageNumber{
+      flex: 1;
+    }
   }
 }
