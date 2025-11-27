@@ -5,6 +5,7 @@ import CharactersPage from "@/pages/CharactersPage/CharactersPage";
 import CharacterPage from "@/pages/CharacterPage/CharacterPage";
 import ComicsPage from "@/pages/ComicsPage/ComicsPage";
 import FavoritesPages from "@/pages/FavoritesPage/FavoritesPage";
+import { FavorisProvider } from "./components/FavoritesContext";
 
 function App() {
   return (
@@ -13,12 +14,14 @@ function App() {
         <Header />
         <main>
           <div className="container">
-            <Routes>
-              <Route path="/" element={<CharactersPage />} />
-              <Route path="/character/:id" element={<CharacterPage />} />
-              <Route path="/comics" element={<ComicsPage />} />
-              <Route paths="/favorites" element={<FavoritesPages />} />
-            </Routes>
+            <FavorisProvider>
+              <Routes>
+                <Route path="/" element={<CharactersPage />} />
+                <Route path="/character/:id" element={<CharacterPage />} />
+                <Route path="/comics" element={<ComicsPage />} />
+                <Route path="/favorites" element={<FavoritesPages />} />
+              </Routes>
+            </FavorisProvider>
           </div>
         </main>
       </Router>

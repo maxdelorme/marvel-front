@@ -2,7 +2,6 @@ import logo from "@/assets/img/logo.png";
 import "./header.css";
 import { Link, NavLink } from "react-router-dom";
 import { IoHeart } from "react-icons/io5";
-import { useState } from "react";
 
 const Header = () => {
   return (

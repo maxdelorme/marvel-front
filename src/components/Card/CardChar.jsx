@@ -13,7 +13,7 @@ const CardChar = ({ item, nolink }) => {
   return nolink ? (
     card
   ) : (
-    <Link className="card" to={"character/" + item._id}>
+    <Link className="card" to={"/character/" + item._id}>
       {card}
     </Link>
   );
