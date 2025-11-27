@@ -5,7 +5,8 @@
 :root {
   font-size: clamp(12px, 2.5vw, 18px);
   font-family: sans-serif;
-  --red-marvel: #ee171f;
+  /* red marvel */
+  --primary: #ee171f;
 }
 
 body {

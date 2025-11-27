@@ -33,11 +33,11 @@ header {
     
     a:hover {
       cursor: pointer;
-      color: var(--red-marvel);
+      color: var(--primary);
     }
     
     a.active {
-      border-bottom: 1px solid var(--red-marvel);
+      border-bottom: 1px solid var(--primary);
     }
   }
 }
