@@ -9,42 +9,70 @@ import CardChar from "../../components/Card/CardChar";
 const CharactersPage = () => {
   const [data, setData] = useState(null);
   const [search, setSearch] = useState("");
+  const pageSize = 100;
+  const [page, setPage] = useState(1);
+  let nbPages = 0;
 
   let isLoading = Boolean(!data);
 
   useEffect(() => {
+    // when search change we reset the page to 1
+    setPage(1);
+  }, [search]);
+
+  useEffect(() => {
     const getData = async () => {
       try {
+        const skip = pageSize * (page - 1);
         // va chercher les data sur le back
         const { data } = await axios.get(
-          backURL + "/proxy/characters?" + "name=" + search
+          backURL +
+            `/proxy/characters?name=${search}&skip=${skip}&limit=${pageSize}`
         );
         setData(data);
       } catch (error) {
         console.log(
+          "error",
           error.reponse ? error.response.data.message : error.message
         );
       }
     };
 
     getData();
-  }, [search]);
+  }, [search, page]);
+
+  if (!isLoading) {
+    nbPages = Math.ceil(data.count / pageSize);
+  }
 
   return isLoading ? (
     <p className="loading">Chargement en cours...</p>
   ) : (
     <section className="charactersList">
-      <label htmlFor="">
-        <input
-          type="text"
-          value={search}
-          onChange={(event) => {
-            setSearch(event.target.value);
-          }}
-          placeholder="Chercher votre personnage favoris"
-        ></input>
-        <IoIosSearch />
-      </label>
+      <nav>
+        <label>
+          <input
+            type="text"
+            value={search}
+            onChange={(event) => {
+              setSearch(event.target.value);
+            }}
+            placeholder="Chercher votre personnage favoris"
+          ></input>
+          <IoIosSearch />
+        </label>
+        <div className="pages">
+          Page <span className="page">{page}</span> : 1
+          <input
+            type="range"
+            min="1"
+            max={nbPages}
+            value={page}
+            onChange={(event) => setPage(Number(event.target.value))}
+          />
+          {nbPages}
+        </div>
+      </nav>
       <div className="grid">
         {data.results.map((item, index) => {
           return <CardChar key={index} item={item} />;
