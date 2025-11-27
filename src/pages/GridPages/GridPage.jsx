@@ -90,7 +90,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
           <IoIosSearch />
         </label>
         <div className="pages">
-          Page <span className="pageNumber">{page}</span>:&nbsp;1
+          Page <span className="pageNumber">{page}</span>&nbsp;
           <IoRemoveCircleOutline
             onClick={() => page !== 1 && handleChangePage(page - 1)}
             className={page === 1 && "disabled"}
@@ -108,7 +108,6 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
             onClick={() => page !== nbPages && handleChangePage(page + 1)}
             className={page === nbPages && "disabled"}
           />
-          {nbPages}
         </div>
       </nav>
       <div className="grid">
