@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 const getPictUrl = (item, variant = "portrait_small") => {
   return item.thumbnail.path + "/" + variant + "." + item.thumbnail.extension;
 };
-const CardChar = ({ item, type }) => {
+const CardChar = ({ item, type, nolink }) => {
   item.title = item.name;
 
-  return (
+  return nolink ? (
+    <Card item={item} />
+  ) : (
     <Link className={`card ${type}`} to={"character/" + item._id}>
       <Card item={item} />
     </Link>

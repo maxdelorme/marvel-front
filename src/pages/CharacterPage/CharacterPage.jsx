@@ -39,7 +39,7 @@ const CharacterPage = () => {
     <p className="loading">Chargement en cours...</p>
   ) : (
     <section>
-      <CardChar item={data}></CardChar>
+      <CardChar item={data} nolink></CardChar>
       <h2>Apparait dans les Comics suivants :</h2>
       <div className="grid">
         {data.comicDetails.map((item, index) => (
