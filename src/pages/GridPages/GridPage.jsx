@@ -3,7 +3,8 @@ import "./GridPage.css";
 import axios from "axios";
 import { backURL } from "../../utils/settings";
 import { IoIosSearch } from "react-icons/io";
-
+import { IoAddCircleOutline } from "react-icons/io5";
+import { IoRemoveCircleOutline } from "react-icons/io5";
 const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
   const [data, setData] = useState(null);
   const [search, setSearch] = useState("");
@@ -59,7 +60,8 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
           <IoIosSearch />
         </label>
         <div className="pages">
-          Page <span className="page">{page}</span> : 1
+          Page <span className="pageNumber">{page}</span>:&nbsp;1
+          <IoRemoveCircleOutline onClick={() => setPage(page - 1)} />
           <input
             type="range"
             min="1"
@@ -67,6 +69,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
             value={page}
             onChange={(event) => setPage(Number(event.target.value))}
           />
+          <IoAddCircleOutline onClick={() => setPage(page + 1)} />
           {nbPages}
         </div>
       </nav>

@@ -90,16 +90,21 @@ section {
       border: 1px solid darkgrey;
       padding: 0.1rem 0.5rem;
       border-radius: 1rem;
-      .page {
+      .pageNumber {
+        flex: 1;
+        padding: 0.1rem 0.2rem;
         display: flex;
         justify-content: center;
         align-items: center;
         color: white;
         background-color: var(--primary);
         border-radius: var(--thumb-width);
-        width: var(--thumb-width);
         height: var(--thumb-width);
         font-size: calc(var(--thumb-width) * 0.8);
+      }
+      
+      svg {
+        cursor: pointer;
       }
       
       --track-height: 0px;
