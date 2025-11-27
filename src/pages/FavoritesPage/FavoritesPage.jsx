@@ -12,6 +12,7 @@ const FavoritesPages = () => {
     return type === "characters" ? CardChar : Card;
   };
 
+  // On initialise le state et on bouclera dessus ensuite
   const InitialFavorisState = {
     characters: {
       title: "Personnages",
@@ -24,29 +25,38 @@ const FavoritesPages = () => {
       listDetail: [],
     },
   };
+  const [favoris, setFavoris] = useState(InitialFavorisState);
+
   // Note cards are not in InitialFavorisState because its prevent deep copy
   const cards = {
     characters: CardChar,
     comics: Card,
   };
-  const [favoris, setFavoris] = useState(InitialFavorisState);
+
+  //récupération des IDs en favoris
   const { favorisIDs } = useFavorisContext();
 
   const getData = async () => {
     try {
-      const copy = structuredClone(favoris);
-      for (const type in copy) {
-        const partie = copy[type];
-        partie.listDetail = [];
+      const copyOfFavoris = structuredClone(favoris);
+
+      // loop on each kind of IDs to get details on it
+      for (const type in copyOfFavoris) {
+        const favorisType = copyOfFavoris[type];
+        favorisType.listDetail = [];
+
+        // get detail for each ID with a for loop to wait on the await
         for (let i = 0; i < favorisIDs[type].length; i++) {
           const favoriteID = favorisIDs[type][i];
           const response = await axios.get(
-            backURL + "/proxy/" + partie.path + "/" + favoriteID
+            backURL + "/proxy/" + favorisType.path + "/" + favoriteID
           );
-          partie.listDetail.push(response.data);
+          favorisType.listDetail.push(response.data);
         }
       }
-      setFavoris(copy);
+
+      // Set the data
+      setFavoris(copyOfFavoris);
     } catch (error) {
       console.log(
         "error",
@@ -59,9 +69,6 @@ const FavoritesPages = () => {
     getData();
   }, [favorisIDs]);
 
-  // favorisIDs && console.log("IDs", favorisIDs);
-  // favoris && console.log("favoris", favoris);
-
   return (
     <section>
       {
@@ -69,7 +76,9 @@ const FavoritesPages = () => {
         ["characters", "comics"].map((type) => {
           const partie = favoris[type];
           const Card = cards[type];
+
           return (
+            // Put each partie in a div to put the key attribute
             <div key={type}>
               <h2>{partie.title}</h2>
               <div className="grid">

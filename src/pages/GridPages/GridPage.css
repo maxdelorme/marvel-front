@@ -111,6 +111,7 @@ section {
         }
       }
       
+      /* @see https://www.swebdev.fr/blog/personnaliser-l-apparence-d-un-input-range-en-css */
       --track-height: 0px;
       --thumb-height: 1rem;
       --thumb-width: 1rem;

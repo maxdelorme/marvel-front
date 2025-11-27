@@ -11,21 +11,21 @@ import handleChange from "../../../../../../S6 - React/J3 - router/Exercices/1-v
 const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
   const [data, setData] = useState(null);
   const pageSize = 100;
-  const [currentQueryParameters, setQueryParams] = useSearchParams();
 
+  // initialize state with the paramaters from url
+  const [currentQueryParameters, setQueryParams] = useSearchParams();
   const querySearch = currentQueryParameters.get("search");
   const [search, setSearch] = useState(querySearch || "");
   const queryPage = currentQueryParameters.get("page");
   const [page, setPage] = useState(Number(queryPage) || 1);
 
   let nbPages = 0;
-
   let isLoading = Boolean(!data);
-
   let sanitizePage;
+
   if (!isLoading) {
     nbPages = Math.ceil(data.count / pageSize);
-
+    // we can now define a sanitize function
     sanitizePage = (page) => {
       return Math.min(Math.max(1, nbPages), Math.max(1, page));
     };
@@ -33,17 +33,19 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const SanitizedPage = sanitizePage
+        // Prepare query to backend
+        const sanitizedPage = sanitizePage
           ? sanitizePage(Number(page))
           : Number(page);
-        const skip = Number(pageSize * (SanitizedPage - 1));
+
+        const skip = Number(pageSize * (sanitizedPage - 1));
         const query =
           backURL +
           `${pathSearch}=${encodeURIComponent(
             search
           )}&skip=${skip}&limit=${pageSize}`;
-        console.log(query);
-        // va chercher les data sur le back
+
+        // On va chercher les data sur le back
         const { data } = await axios.get(query);
         setData(data);
       } catch (error) {
@@ -57,6 +59,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
     getData();
   }, [search, page]);
 
+  // comme on peut changer de page via le slider, et les boutons
   const handleChangePage = (page) => {
     page = sanitizePage(Number(page));
     setPage(page);
@@ -71,6 +74,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
   ) : (
     <section className="cardList">
       <nav>
+        {/* Affichage de l'input de recherche */}
         <label>
           <input
             type="text"
@@ -89,6 +93,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
           ></input>
           <IoIosSearch />
         </label>
+        {/* affichage des pages */}
         <div className="pages">
           Page <span className="pageNumber">{page}</span>&nbsp;
           <IoRemoveCircleOutline
@@ -110,6 +115,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
           />
         </div>
       </nav>
+      {/* Affichages des réponses */}
       <div className="grid">
         {data.results.map((item) => {
           return <ElementCard key={item._id} item={item} />;
