@@ -4,7 +4,7 @@ import { IoHeartOutline } from "react-icons/io5";
 import { useState } from "react";
 import { useFavorisContext } from "../FavoritesContext";
 
-const getPictUrl = (item, variant = "portrait_small") => {
+export const getPictUrl = (item, variant = "portrait_small") => {
   return item.thumbnail.path + "/" + variant + "." + item.thumbnail.extension;
 };
 

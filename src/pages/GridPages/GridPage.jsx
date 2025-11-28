@@ -7,6 +7,7 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { IoRemoveCircleOutline } from "react-icons/io5";
 import { useSearchParams } from "react-router-dom";
 import Downshift from "downshift";
+import { getPictUrl } from "../../components/Card/Card";
 
 const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
   const [data, setData] = useState(null);
@@ -42,13 +43,13 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
     const getData = async () => {
       try {
         const query = backURL + prepareSearchValue(autocomplete);
-
         // On va chercher les data sur le back
         const response = await axios.get(query);
         const responseList = response.data.results.map((item) => {
           return {
             value: item.name || item.title,
             id: item._id,
+            src: getPictUrl(item, "standard_medium")
           };
         });
 
@@ -167,6 +168,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
                             + (selectedItem === item ? ' selected' : ''),
                         })}
                       >
+                        <img src={item.src} />
                         {item.value}
                       </li>
                     ))
