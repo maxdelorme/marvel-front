@@ -33,12 +33,15 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
     };
   }
 
+  // The api don't like parenthesis
+  const prepareSearchValue = (search) => pathSearch + "=" + encodeURIComponent(
+    search.replaceAll(")", "\\)").replaceAll("(", "\\(")
+  )
+
   useEffect(() => {
     const getData = async () => {
       try {
-        // The api don't like parenthesis
-        const query =
-          backURL + `${pathSearch}=${encodeURIComponent(autocomplete.replaceAll(")", "\\)").replaceAll("(", "\\("))}`;
+        const query = backURL + prepareSearchValue(autocomplete);
 
         // On va chercher les data sur le back
         const response = await axios.get(query);
@@ -72,10 +75,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
         const skip = Number(pageSize * (sanitizedPage - 1));
         const query =
           backURL +
-          `${pathSearch}=${encodeURIComponent(
-            search.replaceAll(")", "\\)").replaceAll("(", "\\(")
-          )
-          }& skip=${skip}& limit=${pageSize} `;
+          `${prepareSearchValue(search)}&skip=${skip}&limit=${pageSize} `;
 
         // On va chercher les data sur le back
         const { data } = await axios.get(query);
