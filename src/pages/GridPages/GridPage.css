@@ -84,7 +84,7 @@ section {
             transition: 0ms;
             padding-bottom: .1rem;
             &.highlighted {
-              background-color: color-mix(in oklab, var(--primary) 80%, #00000080 50%);
+              background-image: linear-gradient(color-mix(in oklab, var(--primary) 80%, #00000080 50%), color-mix(in oklab, var(--primary) 80%, #00000080 100%));
             }
             &:hover {
               background-color: color-mix(in oklab, var(--primary) 80%, #00000080 80%);
