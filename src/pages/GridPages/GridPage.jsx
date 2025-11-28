@@ -6,7 +6,7 @@ import { IoIosSearch } from "react-icons/io";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { IoRemoveCircleOutline } from "react-icons/io5";
 import { useSearchParams } from "react-router-dom";
-import handleChange from "../../../../../../S6 - React/J3 - router/Exercices/1-vinted/src/utils/handleChange";
+import Downshift from "downshift";
 
 const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
   const [data, setData] = useState(null);
@@ -19,10 +19,12 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
   const queryPage = currentQueryParameters.get("page");
   const [page, setPage] = useState(Number(queryPage) || 1);
 
+  const [autocomplete, setAutocomplete] = useState("");
+  const [autocompleteList, setAutocompleteList] = useState([]);
+
   let nbPages = 0;
   let isLoading = Boolean(!data);
   let sanitizePage;
-
   if (!isLoading) {
     nbPages = Math.ceil(data.count / pageSize);
     // we can now define a sanitize function
@@ -30,6 +32,35 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
       return Math.min(Math.max(1, nbPages), Math.max(1, page));
     };
   }
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        // The api don't like parenthesis
+        const query =
+          backURL + `${pathSearch}=${encodeURIComponent(autocomplete.replaceAll(")", "\\)").replaceAll("(", "\\("))}`;
+
+        // On va chercher les data sur le back
+        const response = await axios.get(query);
+        const responseList = response.data.results.map((item) => {
+          return {
+            value: item.name || item.title,
+            id: item._id,
+          };
+        });
+
+        setAutocompleteList(responseList);
+      } catch (error) {
+        console.log(
+          "error",
+          error.reponse ? error.response.data.message : error.message
+        );
+      }
+    };
+
+    getData();
+  }, [autocomplete]);
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -42,8 +73,9 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
         const query =
           backURL +
           `${pathSearch}=${encodeURIComponent(
-            search
-          )}&skip=${skip}&limit=${pageSize}`;
+            search.replaceAll(")", "\\)").replaceAll("(", "\\(")
+          )
+          }& skip=${skip}& limit=${pageSize} `;
 
         // On va chercher les data sur le back
         const { data } = await axios.get(query);
@@ -69,6 +101,16 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
     });
   };
 
+  const recordSearch = (search) => {
+    setSearch(search);
+    setPage(1);
+    setQueryParams((prev) => {
+      prev.set("search", search);
+      prev.set("page", 1);
+      return prev;
+    });
+  };
+
   return isLoading ? (
     <p className="loading">Chargement en cours...</p>
   ) : (
@@ -76,23 +118,65 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
       <nav>
         {/* Affichage de l'input de recherche */}
         <label>
-          <input
-            type="text"
-            value={search}
-            onChange={(event) => {
-              const search = event.target.value;
-              setSearch(search);
-              setPage(1);
-              setQueryParams((prev) => {
-                prev.set("search", search);
-                prev.set("page", 1);
-                return prev;
-              });
-            }}
-            placeholder={placeholder}
-          ></input>
-          <IoIosSearch />
+          <Downshift
+            onChange={
+              (selection) => recordSearch(selection.value)
+            }
+            // stateReducer={stateReducer}
+            itemToString={(item) => (item ? item.value : "")}
+          >
+            {({
+              getInputProps,
+              getItemProps,
+              getMenuProps,
+              inputValue,
+              isOpen,
+              selectedItem,
+              getRootProps,
+              highlightedIndex,
+            }) => (
+              <div className="autocomplete">
+                <div {...getRootProps({}, { suppressRefError: true })}>
+                  <input
+                    {...getInputProps({
+                      placeholder: placeholder,
+                      onChange: (event) => {
+                        setAutocomplete(event.target.value);
+                      },
+                      onKeyDown: (event) => {
+                        if (event.code === "Enter") {
+                          // allow to submit the input type if no value are selected
+                          if (highlightedIndex === null)
+                            recordSearch(inputValue)
+                        }
+                      },
+                    })}
+                  />{" "}
+                  <IoIosSearch />
+                </div>
+                <ul {...getMenuProps({ className: "menuAutocomplete" })}>
+                  {isOpen
+                    ? autocompleteList.map((item, index) => (
+                      <li
+                        {...getItemProps({
+                          key: item._id,
+                          index,
+                          item,
+                          className: "itemAutocomplete "
+                            + ((highlightedIndex === index) ? ' highlighted' : '')
+                            + (selectedItem === item ? ' selected' : ''),
+                        })}
+                      >
+                        {item.value}
+                      </li>
+                    ))
+                    : null}
+                </ul>
+              </div>
+            )}
+          </Downshift>
         </label>
+
         {/* affichage des pages */}
         <div className="pages">
           Page <span className="pageNumber">{page}</span>&nbsp;
