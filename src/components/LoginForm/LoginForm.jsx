@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { backURL } from "../../utils/settings";
-import Cookies from "js-cookie";
 // Get the generic handler
 import handleChange from "../../utils/handleChange";
 

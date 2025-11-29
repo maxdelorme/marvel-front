@@ -3,7 +3,6 @@
 // Ce formulaire est affichée dans une modale
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useState } from "react";
 // utilisation de handleChange pour gérer de manière générique les changement
 import handleChange from "../../utils/handleChange";
