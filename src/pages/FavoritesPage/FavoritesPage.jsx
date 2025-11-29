@@ -5,13 +5,10 @@ import axios from "axios";
 import CardChar from "../../components/Card/CardChar";
 import Card from "../../components/Card/Card";
 import { useState, useEffect } from "react";
-import SignupForm from "../../components/SignupForm/SignupForm";
-import LoginForm from "../../components/LoginForm/LoginForm";
+
 import { Navigate } from "react-router-dom";
 
 const FavoritesPages = ({ modal, setModal, token, setToken }) => {
-  // this state let we know if its the signup or the login form to show
-  const [showSignupOrLogin, setShowSignupOrLogin] = useState("login");
   // On initialise le state et on bouclera dessus ensuite
   const InitialFavorisState = {
     characters: {
@@ -34,29 +31,9 @@ const FavoritesPages = ({ modal, setModal, token, setToken }) => {
     // display modal if unauthenticated
     if (!token) {
       setHasDisplayedModal(true);
-      showSignupOrLogin === "signup"
-        ? setModal({
-            isVisible: true,
-            children: (
-              <SignupForm
-                setToken={setToken}
-                setModal={setModal}
-                setShowSignupOrLogin={setShowSignupOrLogin}
-              ></SignupForm>
-            ),
-          })
-        : setModal({
-            isVisible: true,
-            children: (
-              <LoginForm
-                setToken={setToken}
-                setModal={setModal}
-                setShowSignupOrLogin={setShowSignupOrLogin}
-              ></LoginForm>
-            ),
-          });
+      setModal("login");
     }
-  }, [token, showSignupOrLogin]);
+  }, [token]);
 
   // Note cards are not in InitialFavorisState because its prevent deep copy
   const cards = {
@@ -100,7 +77,7 @@ const FavoritesPages = ({ modal, setModal, token, setToken }) => {
     getData();
   }, [favorisIDs]);
 
-  return hasDisplayedModal && !token && !modal.isVisible ? (
+  return hasDisplayedModal && !token && !modal ? (
     <Navigate to="/" />
   ) : (
     <section>

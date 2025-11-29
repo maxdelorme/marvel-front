@@ -8,7 +8,7 @@ import { useState } from "react";
 import handleChange from "../../utils/handleChange";
 import { backURL } from "../../utils/settings";
 
-const SignupForm = ({ setToken, setModal, setShowSignupOrLogin }) => {
+const SignupForm = ({ setToken, setModal }) => {
   const [hasError, setHasError] = useState("");
   const [formData, setFormData] = useState({
     firstname: "",
@@ -25,7 +25,7 @@ const SignupForm = ({ setToken, setModal, setShowSignupOrLogin }) => {
       const response = await axios.post(backURL + "/user", formData);
       token = response.data.token;
       setToken(token);
-      setModal({ isVisible: false });
+      setModal(null);
     } catch (error) {
       error.response
         ? setHasError(error.response.data.message)
@@ -98,7 +98,7 @@ const SignupForm = ({ setToken, setModal, setShowSignupOrLogin }) => {
       <Link
         onClick={(event) => {
           event.preventDefault();
-          setShowSignupOrLogin("login");
+          setModal("login");
         }}
       >
         <p>Tu as déjà un compte ? Connecte-toi !</p>

@@ -20,10 +20,7 @@ function App() {
     Cookies.set("token", token, { expires: 1 });
   }
   // et la modale fermée
-  const [modal, setModal] = useState({
-    isVisible: false,
-    children: null,
-  });
+  const [modal, setModal] = useState(null);
 
   return (
     <>
@@ -57,7 +54,9 @@ function App() {
             </FavorisProvider>
           </div>
         </main>
-        {modal.isVisible && <Modal modal={modal} setModal={setModal}></Modal>}
+        {modal && (
+          <Modal modal={modal} setModal={setModal} setToken={setToken}></Modal>
+        )}
       </Router>
     </>
   );

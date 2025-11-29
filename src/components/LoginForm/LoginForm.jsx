@@ -6,7 +6,7 @@ import { backURL } from "../../utils/settings";
 // Get the generic handler
 import handleChange from "../../utils/handleChange";
 
-const SignupForm = ({ setToken, setModal, setShowSignupOrLogin }) => {
+const SignupForm = ({ setToken, setModal }) => {
   const [hasError, setHasError] = useState("");
   const [formData, setformData] = useState({
     email: "",
@@ -20,7 +20,7 @@ const SignupForm = ({ setToken, setModal, setShowSignupOrLogin }) => {
       const response = await axios.post(backURL + "/user/login", formData);
       const token = response.data.user.token;
       setToken(token);
-      setModal({ isVisible: false });
+      setModal(null);
     } catch (error) {
       error.response
         ? setHasError(
@@ -34,8 +34,7 @@ const SignupForm = ({ setToken, setModal, setShowSignupOrLogin }) => {
 
   return (
     <form id="LoginForm" onSubmit={handleSubmit}>
-      <h2>Se Connecter</h2>
-
+      <h2>Pour utiliser les favoris vous devez vous connecter</h2>
       <label>
         <span>Email</span>
         <input
@@ -67,7 +66,7 @@ const SignupForm = ({ setToken, setModal, setShowSignupOrLogin }) => {
       <Link
         onClick={(event) => {
           event.preventDefault();
-          setShowSignupOrLogin("signup");
+          setModal("signup");
         }}
       >
         <p>Pas encore de compte ? inscris-toi </p>

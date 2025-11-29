@@ -9,7 +9,13 @@ import { useSearchParams } from "react-router-dom";
 import Downshift from "downshift";
 import { getPictUrl } from "../../components/Card/Card";
 
-const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
+const GridPage = ({
+  element: ElementCard,
+  placeholder,
+  pathSearch,
+  setModal,
+  token,
+}) => {
   const [data, setData] = useState(null);
   const pageSize = 100;
 
@@ -35,9 +41,10 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
   }
 
   // The api don't like parenthesis
-  const prepareSearchValue = (search) => pathSearch + "=" + encodeURIComponent(
-    search.replaceAll(")", "\\)").replaceAll("(", "\\(")
-  )
+  const prepareSearchValue = (search) =>
+    pathSearch +
+    "=" +
+    encodeURIComponent(search.replaceAll(")", "\\)").replaceAll("(", "\\("));
 
   useEffect(() => {
     const getData = async () => {
@@ -49,7 +56,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
           return {
             value: item.name || item.title,
             id: item._id,
-            src: getPictUrl(item, "standard_medium")
+            src: getPictUrl(item, "standard_medium"),
           };
         });
 
@@ -120,9 +127,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
         {/* Affichage de l'input de recherche */}
         <label>
           <Downshift
-            onChange={
-              (selection) => recordSearch(selection.value)
-            }
+            onChange={(selection) => recordSearch(selection.value)}
             // stateReducer={stateReducer}
             itemToString={(item) => (item ? item.value : "")}
           >
@@ -148,7 +153,7 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
                         if (event.code === "Enter") {
                           // allow to submit the input type if no value are selected
                           if (highlightedIndex === null)
-                            recordSearch(inputValue)
+                            recordSearch(inputValue);
                         }
                       },
                     })}
@@ -158,20 +163,23 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
                 <ul {...getMenuProps({ className: "menuAutocomplete" })}>
                   {isOpen
                     ? autocompleteList.map((item, index) => (
-                      <li
-                        {...getItemProps({
-                          key: item._id,
-                          index,
-                          item,
-                          className: "itemAutocomplete "
-                            + ((highlightedIndex === index) ? ' highlighted' : '')
-                            + (selectedItem === item ? ' selected' : ''),
-                        })}
-                      >
-                        <img src={item.src} />
-                        {item.value}
-                      </li>
-                    ))
+                        <li
+                          {...getItemProps({
+                            key: item._id,
+                            index,
+                            item,
+                            className:
+                              "itemAutocomplete " +
+                              (highlightedIndex === index
+                                ? " highlighted"
+                                : "") +
+                              (selectedItem === item ? " selected" : ""),
+                          })}
+                        >
+                          <img src={item.src} />
+                          {item.value}
+                        </li>
+                      ))
                     : null}
                 </ul>
               </div>
@@ -204,7 +212,14 @@ const GridPage = ({ element: ElementCard, placeholder, pathSearch }) => {
       {/* Affichages des réponses */}
       <div className="grid">
         {data.results.map((item) => {
-          return <ElementCard key={item._id} item={item} />;
+          return (
+            <ElementCard
+              key={item._id}
+              item={item}
+              setModal={setModal}
+              token={token}
+            />
+          );
         })}
       </div>
     </section>

@@ -1,10 +1,12 @@
 import { IoMdClose } from "react-icons/io";
 import { useEffect } from "react";
 import "./modal.css";
+import SignupForm from "../../components/SignupForm/SignupForm";
+import LoginForm from "../../components/LoginForm/LoginForm";
 
-const Modal = ({ modal, setModal }) => {
+const Modal = ({ setToken, setModal, modal }) => {
   const closeModal = () => {
-    setModal({ isVisible: false });
+    setModal(null);
   };
   useEffect(() => {
     document.body.style.overflow = "hidden"; // se déclenchera au montage du composant
@@ -26,7 +28,14 @@ const Modal = ({ modal, setModal }) => {
         <div className="closeButton" onClick={closeModal}>
           <IoMdClose />
         </div>
-        <div className="modalContent">{modal.children}</div>
+        <div className="modalContent">
+          {modal === "signup" && (
+            <SignupForm setToken={setToken} setModal={setModal}></SignupForm>
+          )}
+          {modal === "login" && (
+            <LoginForm setToken={setToken} setModal={setModal}></LoginForm>
+          )}
+        </div>
       </div>
     </div>
   );
