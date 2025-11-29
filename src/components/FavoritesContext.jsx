@@ -6,33 +6,38 @@ import { backURL } from "../utils/settings";
 const FavorisContext = createContext();
 
 export const FavorisProvider = ({ children, token }) => {
-  const [favorisIDs, setFavorisIDs] = useState({
+  const initContext = {
     characters: [],
     comics: [],
-  });
+  };
+  const [favorisIDs, setFavorisIDs] = useState(initContext);
 
   useEffect(() => {
     getFavoris();
   }, [token]);
 
   const getFavoris = async () => {
-    try {
-      const response = await axios.get(backURL + "/favoris/characters", {
-        headers: { authorization: `Bearer ${token}` },
-      });
+    if (!token) {
+      setFavorisIDs(initContext);
+    } else {
+      try {
+        const response = await axios.get(backURL + "/favoris/characters", {
+          headers: { authorization: `Bearer ${token}` },
+        });
 
-      const data = { characters: response.data.data };
-      const response2 = await axios.get(backURL + "/favoris/comics", {
-        headers: { authorization: `Bearer ${token}` },
-      });
-      data.comics = response2.data.data;
-      setFavorisIDs(data);
-      // console.log(data);
-    } catch (error) {
-      console.log(
-        "error",
-        error.reponse ? error.response.data.message : error.message
-      );
+        const data = { characters: response.data.data };
+        const response2 = await axios.get(backURL + "/favoris/comics", {
+          headers: { authorization: `Bearer ${token}` },
+        });
+        data.comics = response2.data.data;
+        setFavorisIDs(data);
+        // console.log(data);
+      } catch (error) {
+        console.log(
+          "error",
+          error.reponse ? error.response.data.message : error.message
+        );
+      }
     }
   };
 
