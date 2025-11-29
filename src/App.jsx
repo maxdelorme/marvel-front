@@ -44,7 +44,13 @@ function App() {
                 />
                 <Route
                   path="/favorites"
-                  element={<FavoritesPages setModal={setModal} token={token} />}
+                  element={
+                    <FavoritesPages
+                      modal={modal}
+                      setModal={setModal}
+                      token={token}
+                    />
+                  }
                 />
               </Routes>
             </FavorisProvider>

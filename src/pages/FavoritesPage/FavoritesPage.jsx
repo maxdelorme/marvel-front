@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 
 import { Navigate } from "react-router-dom";
 
-const FavoritesPages = ({ modal, setModal, token, setToken }) => {
+const FavoritesPages = ({ modal, setModal, token }) => {
   // On initialise le state et on bouclera dessus ensuite
   const InitialFavorisState = {
     characters: {
@@ -74,8 +74,10 @@ const FavoritesPages = ({ modal, setModal, token, setToken }) => {
   };
 
   useEffect(() => {
-    getData();
-  }, [favorisIDs]);
+    if (token) {
+      getData();
+    }
+  }, [favorisIDs, token]);
 
   return hasDisplayedModal && !token && !modal ? (
     <Navigate to="/" />
