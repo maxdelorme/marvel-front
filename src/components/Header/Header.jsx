@@ -1,25 +1,27 @@
 import logo from "@/assets/img/logo.png";
 import "./header.css";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoHeart } from "react-icons/io5";
 import axios from "axios";
 import { backURL } from "../../utils/settings";
 
 const Header = ({ token, setToken }) => {
+  const navigate = useNavigate();
+
   const disconnect = async () => {
     try {
       await axios.get(backURL + "/user/disconnect", {
         headers: { authorization: `Bearer ${token}` },
       });
-      setToken(null);
     } catch (error) {
       console.log(
         "error",
         error.reponse ? error.response.data.message : error.message
       );
       // even if not authenticated, we clean all on browser
-      setToken(null);
     }
+    navigate("/");
+    setToken(null);
   };
 
   return (
@@ -34,7 +36,11 @@ const Header = ({ token, setToken }) => {
           <NavLink to="/favorites">
             <IoHeart /> Favorites
           </NavLink>
-          {token && <button onClick={disconnect}>Se déconnecter</button>}
+          {token && (
+            <button onClick={disconnect} className="fill-primary">
+              Se déconnecter
+            </button>
+          )}
         </nav>
       </div>
     </header>
