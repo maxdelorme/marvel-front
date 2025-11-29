@@ -8,10 +8,6 @@ import Card from "../../components/Card/Card";
 import { useState, useEffect } from "react";
 
 const FavoritesPages = () => {
-  const getCard = (type) => {
-    return type === "characters" ? CardChar : Card;
-  };
-
   // On initialise le state et on bouclera dessus ensuite
   const InitialFavorisState = {
     characters: {
