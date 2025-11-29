@@ -11,11 +11,14 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 
 function App() {
-  // récupération du cookie pour savoir si l'utilisateur est authentifé
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    Boolean(Cookies.get("token")) || false
-  );
+  // récupération du cookie pour savoir si l'utilisateur change ou pas son token
+  const [token, setToken] = useState(Cookies.get("token"));
 
+  if (!token) {
+    Cookies.remove("token");
+  } else {
+    Cookies.set("token", token, { expires: 1 });
+  }
   // et la modale fermée
   const [modal, setModal] = useState({
     isVisible: false,
@@ -25,10 +28,10 @@ function App() {
   return (
     <>
       <Router>
-        <Header />
+        <Header token={token} setToken={setToken} />
         <main>
           <div className="container">
-            <FavorisProvider>
+            <FavorisProvider token={token}>
               <Routes>
                 <Route path="/" element={<CharactersPage />} />
                 <Route
@@ -45,8 +48,8 @@ function App() {
                     <FavoritesPages
                       modal={modal}
                       setModal={setModal}
-                      isAuthenticated={isAuthenticated}
-                      setIsAuthenticated={setIsAuthenticated}
+                      setToken={setToken}
+                      token={token}
                     />
                   }
                 />

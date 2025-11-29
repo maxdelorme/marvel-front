@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 // Get the generic handler
 import handleChange from "../../utils/handleChange";
 
-const SignupForm = ({ setIsAuthenticated, setModal, setShowSignupOrLogin }) => {
+const SignupForm = ({ setToken, setModal, setShowSignupOrLogin }) => {
   const [hasError, setHasError] = useState("");
   const [formData, setformData] = useState({
     email: "",
@@ -19,9 +19,8 @@ const SignupForm = ({ setIsAuthenticated, setModal, setShowSignupOrLogin }) => {
       event.preventDefault();
 
       const response = await axios.post(backURL + "/user/login", formData);
-
-      Cookies.set("token", response.data.user.token, { expires: 1 });
-      setIsAuthenticated(true);
+      const token = response.data.user.token;
+      setToken(token);
       setModal({ isVisible: false });
     } catch (error) {
       error.response

@@ -9,7 +9,7 @@ import { useState } from "react";
 import handleChange from "../../utils/handleChange";
 import { backURL } from "../../utils/settings";
 
-const SignupForm = ({ setIsAuthenticated, setModal, setShowSignupOrLogin }) => {
+const SignupForm = ({ setToken, setModal, setShowSignupOrLogin }) => {
   const [hasError, setHasError] = useState("");
   const [formData, setFormData] = useState({
     firstname: "",
@@ -24,8 +24,8 @@ const SignupForm = ({ setIsAuthenticated, setModal, setShowSignupOrLogin }) => {
       event.preventDefault();
 
       const response = await axios.post(backURL + "/user", formData);
-      Cookies.set("token", response.data.token, { expires: 1 });
-      setIsAuthenticated(true);
+      token = response.data.token;
+      setToken(token);
       setModal({ isVisible: false });
     } catch (error) {
       error.response
