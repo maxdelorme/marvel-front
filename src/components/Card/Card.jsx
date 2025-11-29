@@ -1,24 +1,27 @@
 import "./Card.css";
 import { IoHeart } from "react-icons/io5";
 import { IoHeartOutline } from "react-icons/io5";
-import { useState } from "react";
 import { useFavorisContext } from "../FavoritesContext";
 
 export const getPictUrl = (item, variant = "portrait_small") => {
   return item.thumbnail.path + "/" + variant + "." + item.thumbnail.extension;
 };
 
-const Card = ({ item, favoritesKey = "comics" }) => {
+const Card = ({ item, favoritesKey = "comics", token, setModal }) => {
   const { isFavorite, addToFavoris, removeFromFavoris } = useFavorisContext();
 
   const Heart = isFavorite(favoritesKey, item._id) ? IoHeart : IoHeartOutline;
 
   const handleFavorite = (event) => {
     event.preventDefault();
-    if (isFavorite(favoritesKey, item._id)) {
-      removeFromFavoris(favoritesKey, item._id);
+    if (!token) {
+      setModal("login");
     } else {
-      addToFavoris(favoritesKey, item._id);
+      if (isFavorite(favoritesKey, item._id)) {
+        removeFromFavoris(favoritesKey, item._id);
+      } else {
+        addToFavoris(favoritesKey, item._id);
+      }
     }
   };
 

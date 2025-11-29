@@ -2,13 +2,17 @@ import Card from "./Card";
 import "./Card.css";
 import { Link } from "react-router-dom";
 
-const getPictUrl = (item, variant = "portrait_small") => {
-  return item.thumbnail.path + "/" + variant + "." + item.thumbnail.extension;
-};
-const CardChar = ({ item, nolink }) => {
+const CardChar = ({ item, nolink, setModal, token }) => {
   item.title = item.name;
 
-  const card = <Card item={item} favoritesKey="characters" />;
+  const card = (
+    <Card
+      item={item}
+      favoritesKey="characters"
+      setModal={setModal}
+      token={token}
+    />
+  );
 
   return nolink ? (
     card

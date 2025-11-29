@@ -5,7 +5,7 @@ import { backURL } from "../../utils/settings";
 import Card from "../../components/Card/Card";
 import CardChar from "../../components/Card/CardChar";
 
-const CharacterPage = () => {
+const CharacterPage = ({ setModal, token }) => {
   const { id } = useParams();
 
   const [data, setData] = useState(null);
@@ -39,11 +39,11 @@ const CharacterPage = () => {
     <p className="loading">Chargement en cours...</p>
   ) : (
     <section>
-      <CardChar item={data} nolink></CardChar>
+      <CardChar item={data} nolink setModal={setModal} token={token}></CardChar>
       <h2>Apparait dans les Comics suivants :</h2>
       <div className="grid">
         {data.comicDetails.map((item, index) => (
-          <Card key={index} item={item} />
+          <Card key={index} item={item} setModal={setModal} token={token} />
         ))}
       </div>
     </section>

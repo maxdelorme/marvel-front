@@ -30,25 +30,21 @@ function App() {
           <div className="container">
             <FavorisProvider token={token}>
               <Routes>
-                <Route path="/" element={<CharactersPage />} />
+                <Route
+                  path="/"
+                  element={<CharactersPage setModal={setModal} token={token} />}
+                />
                 <Route
                   path="/character/:id"
-                  element={<CharacterPage modal={modal} setModal={setModal} />}
+                  element={<CharacterPage setModal={setModal} token={token} />}
                 />
                 <Route
                   path="/comics"
-                  element={<ComicsPage modal={modal} setModal={setModal} />}
+                  element={<ComicsPage setModal={setModal} token={token} />}
                 />
                 <Route
                   path="/favorites"
-                  element={
-                    <FavoritesPages
-                      modal={modal}
-                      setModal={setModal}
-                      setToken={setToken}
-                      token={token}
-                    />
-                  }
+                  element={<FavoritesPages setModal={setModal} token={token} />}
                 />
               </Routes>
             </FavorisProvider>
