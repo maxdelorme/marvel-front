@@ -1,16 +1,40 @@
 // Create a context to be used everywhere
 // This context give access to favoris , and a bunch of logic function
-
-import { createContext, useContext, useState } from "react";
-import getFavoritesFromStorage from "../utils/getFavoritesFromStorage";
-
+import axios from "axios";
+import { createContext, useContext, useState, useEffect } from "react";
+import { backURL } from "../utils/settings";
 const FavorisContext = createContext();
 
-export const FavorisProvider = ({ children }) => {
+export const FavorisProvider = ({ children, token }) => {
   const [favorisIDs, setFavorisIDs] = useState({
-    characters: getFavoritesFromStorage("characters"),
-    comics: getFavoritesFromStorage("comics"),
+    characters: [],
+    comics: [],
   });
+
+  useEffect(() => {
+    getFavoris();
+  }, [token]);
+
+  const getFavoris = async () => {
+    try {
+      const response = await axios.get(backURL + "/favoris/characters", {
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      const data = { characters: response.data.data };
+      const response2 = await axios.get(backURL + "/favoris/comics", {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      data.comics = response2.data.data;
+      setFavorisIDs(data);
+      // console.log(data);
+    } catch (error) {
+      console.log(
+        "error",
+        error.reponse ? error.response.data.message : error.message
+      );
+    }
+  };
 
   // The context Object with the IDs and function to operate on it
   const value = {
@@ -18,19 +42,40 @@ export const FavorisProvider = ({ children }) => {
     favorisIDs: favorisIDs,
 
     // add the item to the favorites of type favoritesKey
-    addToFavoris: (favoritesKey, id) => {
-      const favorites = getFavoritesFromStorage(favoritesKey);
-      favorites.push(id);
-      localStorage.setItem(favoritesKey, JSON.stringify(favorites));
-      setFavorisIDs({ ...favorisIDs, [favoritesKey]: favorites });
+    addToFavoris: async (favoritesKey, id) => {
+      try {
+        const { data } = await axios.put(
+          backURL + "/favoris/" + favoritesKey + "/" + id,
+          "",
+          {
+            headers: { authorization: `Bearer ${token}` },
+          }
+        );
+        setFavorisIDs({ ...favorisIDs, [favoritesKey]: data.data });
+      } catch (error) {
+        console.log(
+          "error",
+          error.reponse ? error.response.data.message : error.message
+        );
+      }
     },
 
     // remove the item of the favorites of type favoritesKey
-    removeFromFavoris: (favoritesKey, id) => {
-      const favorites = getFavoritesFromStorage(favoritesKey);
-      const newfavorites = favorites.filter((_id) => _id !== id);
-      localStorage.setItem(favoritesKey, JSON.stringify(newfavorites));
-      setFavorisIDs({ ...favorisIDs, [favoritesKey]: newfavorites });
+    removeFromFavoris: async (favoritesKey, id) => {
+      try {
+        const { data } = await axios.delete(
+          backURL + "/favoris/" + favoritesKey + "/" + id,
+          {
+            headers: { authorization: `Bearer ${token}` },
+          }
+        );
+        setFavorisIDs({ ...favorisIDs, [favoritesKey]: data.data });
+      } catch (error) {
+        console.log(
+          "error",
+          error.reponse ? error.response.data.message : error.message
+        );
+      }
     },
 
     // Check if the id is a favorite value
