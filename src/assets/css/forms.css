@@ -1,0 +1,134 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 30px;
+  margin: auto;
+  accent-color: var(--primary);
+  h2 {
+    font-weight: 500;
+    font-size: 1.3rem;
+    text-align: center;
+  }
+  
+  input,
+  textarea {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid lightgrey;
+    padding-left: 10px;
+    padding-top: 6px;
+    min-height: 30px;
+    height: 100%;
+    color: white;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    &[type="file"] {
+      opacity: 0;
+      height: 0;
+      width: 0;
+      padding: 0;
+      min-height: 0;
+    }
+    
+    &:focus-visible {
+      outline: none;
+      border-bottom: 2px solid var(--primary);
+    }
+    
+    &::placeholder {
+      color: transparent;
+    }
+  }
+  
+  label:has(input[type="checkbox"]) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    color: var(--primary);
+    input {
+      border: 4px solid var(--primary);
+      width: 25px;
+      height: 25px;
+    }
+  }
+  
+  label:has(input:not([type="checkbox"]), textarea) {
+    flex: 0;
+    position: relative;
+    span {
+      position: absolute;
+      color: var(--primary);
+      font-size: 16px;
+      top: 6px;
+      left: 10px;
+    }
+    
+    em {
+      position: absolute;
+      color: var(--primary);
+      font-size: 16px;
+      right: 0;
+      top: 6px;
+    }
+    
+    &:has(
+    input:not([type="checkbox"]):not(:placeholder-shown),
+      textarea:not(:placeholder-shown)
+    )
+    
+    span {
+      font-size: 12px;
+      top: -20px;
+      color: var(--primary);
+      left: 0px;
+    }
+    
+    &:has(textarea) {
+      flex: 3;
+    }
+  }
+  
+  a {
+    color: var(--primary);
+    text-decoration: none;
+    p {
+      text-align: center;
+    }
+  }
+  
+  .error {
+    background-color: pink;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    color: darkred;
+    font-size: 0.8rem;
+  }
+  
+  p {
+    text-wrap: nowrap;
+  }
+}
+
+label {
+  dummy {
+  }
+  &::after {
+    display: block;
+    content: " ";
+    width: 0%;
+    height: 1px;
+    bottom: 0rem;
+    background-color: white;
+    position: absolute;
+    transition: width .2s ease-in-out;
+  }
+  &:has(input:focus)::after {
+    width: 100%;
+    box-shadow: 0 0 5px 5px var(--primary);
+  }
+}

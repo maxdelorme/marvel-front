@@ -1,13 +1,22 @@
 import "./FavoritesPage.css";
 import { useFavorisContext } from "../../components/FavoritesContext";
-import getFavoritesFromStorage from "../../utils/getFavoritesFromStorage";
 import { backURL } from "../../utils/settings";
 import axios from "axios";
 import CardChar from "../../components/Card/CardChar";
 import Card from "../../components/Card/Card";
 import { useState, useEffect } from "react";
+import SignupForm from "../../components/SignupForm/SignupForm";
+import LoginForm from "../../components/LoginForm/LoginForm";
+import { Navigate } from "react-router-dom";
 
-const FavoritesPages = () => {
+const FavoritesPages = ({
+  modal,
+  setModal,
+  isAuthenticated,
+  setIsAuthenticated,
+}) => {
+  // this state let we know if its the signup or the login form to show
+  const [showSignupOrLogin, setShowSignupOrLogin] = useState("login");
   // On initialise le state et on bouclera dessus ensuite
   const InitialFavorisState = {
     characters: {
@@ -21,7 +30,38 @@ const FavoritesPages = () => {
       listDetail: [],
     },
   };
+  // update on Favoris change
   const [favoris, setFavoris] = useState(InitialFavorisState);
+  // let we know that we have already show the modale
+  const [hasDisplayedModal, setHasDisplayedModal] = useState(false);
+
+  useEffect(() => {
+    // display modal if unauthenticated
+    if (!isAuthenticated) {
+      setHasDisplayedModal(true);
+      showSignupOrLogin === "signup"
+        ? setModal({
+            isVisible: true,
+            children: (
+              <SignupForm
+                setIsAuthenticated={setIsAuthenticated}
+                setModal={setModal}
+                setShowSignupOrLogin={setShowSignupOrLogin}
+              ></SignupForm>
+            ),
+          })
+        : setModal({
+            isVisible: true,
+            children: (
+              <LoginForm
+                setIsAuthenticated={setIsAuthenticated}
+                setModal={setModal}
+                setShowSignupOrLogin={setShowSignupOrLogin}
+              ></LoginForm>
+            ),
+          });
+    }
+  }, [isAuthenticated, showSignupOrLogin]);
 
   // Note cards are not in InitialFavorisState because its prevent deep copy
   const cards = {
@@ -65,7 +105,9 @@ const FavoritesPages = () => {
     getData();
   }, [favorisIDs]);
 
-  return (
+  return hasDisplayedModal && !isAuthenticated && !modal.isVisible ? (
+    <Navigate to="/" />
+  ) : (
     <section>
       {
         /* use this array to ensure order of display */

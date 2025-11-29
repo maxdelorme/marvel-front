@@ -117,21 +117,6 @@ section {
           }
         }
       }
-      
-      &::after {
-        display: block;
-        content: " ";
-        width: 0%;
-        height: 1px;
-        bottom: 0rem;
-        background-color: white;
-        position: absolute;
-        transition: width .2s ease-in-out;
-      }
-      &:has(input:focus)::after {
-        width: 100%;
-        box-shadow: 0 0 5px 5px var(--primary);
-      }
     }
     
     .pages {
