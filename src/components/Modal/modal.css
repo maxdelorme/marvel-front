@@ -27,7 +27,8 @@
   .modalContent {
     max-height: 75vh;
     overflow-y: auto;
-    padding: 40px;
+    padding: 2.5rem;
+    overflow-x: hidden;
   }
 }
 
