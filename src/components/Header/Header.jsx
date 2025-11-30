@@ -2,6 +2,7 @@ import logo from "@/assets/img/logo.png";
 import "./header.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoHeart } from "react-icons/io5";
+import { IoPerson } from "react-icons/io5";
 import axios from "axios";
 import { backURL } from "../../utils/settings";
 import { useEffect, useState } from "react";
@@ -88,7 +89,9 @@ const Header = ({ token, setToken }) => {
                     </NavLink>
                   </li>
                 )}
-                <li>Profil</li>
+                <li>
+                  <IoPerson /> Profil
+                </li>
                 <li>
                   {" "}
                   <button onClick={disconnect} className="fill-primary">

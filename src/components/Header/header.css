@@ -28,7 +28,7 @@ header {
     a {
       color: white;
       text-decoration: none;
-      border: 1px solid transparent;
+      border-bottom: 1px solid transparent;
     }
     
     a[href='/favorites'] {
