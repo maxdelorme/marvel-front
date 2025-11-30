@@ -4,9 +4,11 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoHeart } from "react-icons/io5";
 import axios from "axios";
 import { backURL } from "../../utils/settings";
+import { useEffect, useState } from "react";
 
 const Header = ({ token, setToken }) => {
   const navigate = useNavigate();
+  const [pictAvatar, setPictAvatar] = useState(null);
 
   const disconnect = async () => {
     try {
@@ -18,12 +20,33 @@ const Header = ({ token, setToken }) => {
         "error",
         error.reponse ? error.response.data.message : error.message
       );
-      // even if not authenticated, we clean all on browser
     }
+    // even if not authenticated, we clean all on browser
     navigate("/");
     setToken(null);
   };
+  useEffect(() => {
+    getUser();
+  }, [token]);
 
+  const getUser = async () => {
+    if (token) {
+      try {
+        const response = await axios.get(backURL + "/user", {
+          headers: { authorization: `Bearer ${token}` },
+        });
+        console.log(response.data);
+        setPictAvatar(response.data.data.avatar.src);
+      } catch (error) {
+        console.log(
+          "error",
+          error.reponse ? error.response.data.message : error.message
+        );
+      }
+    } else {
+      setPictAvatar(null);
+    }
+  };
   return (
     <header>
       <div className="container">
@@ -41,6 +64,7 @@ const Header = ({ token, setToken }) => {
               Se déconnecter
             </button>
           )}
+          {pictAvatar && <img src={pictAvatar} alt="image avatar" />}
         </nav>
       </div>
     </header>

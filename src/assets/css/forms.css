@@ -40,6 +40,16 @@ form {
     &::placeholder {
       color: transparent;
     }
+    & + svg {
+      width: 1.3rem;
+      height: 1.3rem;
+      position: absolute;
+      right: 0;
+      background-color: var(--primary);
+      fill: white;
+      border-radius: 2rem;
+      padding: 0.1rem;
+    }
   }
   
   label:has(input[type="checkbox"]) {
@@ -88,6 +98,34 @@ form {
     
     &:has(textarea) {
       flex: 3;
+    }
+    
+    &.avatar {
+      display: flex;
+      gap: 1rem;
+      img {
+        width: 50px;
+        border-radius: 50px;
+      }
+      
+      span {
+        font-size: 12px;
+        top: -20px;
+        color: var(--primary);
+        left: 0px;
+      }
+      
+      .autocomplete {
+        position: relative;
+        flex: 1;
+      }
+      
+      .menuAutocomplete {
+        background-color: black;
+        li {
+          border-bottom: 1px dotted lightgrey;
+        }
+      }
     }
   }
   

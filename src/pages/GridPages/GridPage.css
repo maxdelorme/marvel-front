@@ -75,48 +75,6 @@ section {
         }
       }
       
-      .autocomplete {
-        .menuAutocomplete {
-          background-color: rgba(0, 0, 0, 0.464);
-          top: 2.1rem;
-          position: absolute;
-          width: 100%;
-          .itemAutocomplete {
-            transition: 0ms;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: .2rem;
-            padding: 0.2rem;
-            &.highlighted {
-              background-image: linear-gradient(color-mix(in oklab, var(--primary) 80%, #00000080 50%), color-mix(in oklab, var(--primary) 80%, #00000080 100%));
-            }
-            &:hover {
-              background-color: color-mix(in oklab, var(--primary) 80%, #00000080 80%);
-            }
-            &.selected {
-              font-weight: 600;
-            }
-            
-            img {
-              border-radius: 50px;
-              width: 50px;
-            }
-          }
-          
-          /* hack see https://stackoverflow.com/questions/60997948/backdrop-filter-not-working-for-nested-elements-in-chrome */
-          &::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backdrop-filter: blur(5px);
-            backdrop-filter: blur(5px);
-            z-index: -1;
-          }
-        }
-      }
     }
     
     .pages {
@@ -184,6 +142,49 @@ section {
         border-radius: 50%;
         border: 0;
       }
+    }
+  }
+}
+
+.autocomplete {
+  .menuAutocomplete {
+    background-color: rgba(0, 0, 0, 0.464);
+    top: 2.1rem;
+    position: absolute;
+    width: 100%;
+    .itemAutocomplete {
+      transition: 0ms;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: .2rem;
+      padding: 0.2rem;
+      &.highlighted {
+        background-image: linear-gradient(color-mix(in oklab, var(--primary) 80%, #00000080 50%), color-mix(in oklab, var(--primary) 80%, #00000080 100%));
+      }
+      &:hover {
+        background-color: color-mix(in oklab, var(--primary) 80%, #00000080 80%);
+      }
+      &.selected {
+        font-weight: 600;
+      }
+      
+      img {
+        border-radius: 50px;
+        width: 50px;
+      }
+    }
+    
+    /* hack see https://stackoverflow.com/questions/60997948/backdrop-filter-not-working-for-nested-elements-in-chrome */
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+      z-index: -1;
     }
   }
 }
