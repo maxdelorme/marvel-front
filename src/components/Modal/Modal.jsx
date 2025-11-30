@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import "./modal.css";
 import SignupForm from "../../components/SignupForm/SignupForm";
 import LoginForm from "../../components/LoginForm/LoginForm";
+import ProfilForm from "../profilForm/profilForm";
 
-const Modal = ({ setToken, setModal, modal }) => {
+const Modal = ({ setToken, token, setModal, modal }) => {
   const closeModal = () => {
     setModal(null);
   };
@@ -34,6 +35,13 @@ const Modal = ({ setToken, setModal, modal }) => {
           )}
           {modal === "login" && (
             <LoginForm setToken={setToken} setModal={setModal}></LoginForm>
+          )}
+          {modal === "profil" && (
+            <ProfilForm
+              token={token}
+              setToken={setToken}
+              setModal={setModal}
+            ></ProfilForm>
           )}
         </div>
       </div>

@@ -8,7 +8,7 @@ import { backURL } from "../../utils/settings";
 import { useEffect, useState } from "react";
 import useWindowDimensions from "../../utils/useWindowSize";
 
-const Header = ({ token, setToken }) => {
+const Header = ({ token, setToken, setModal }) => {
   const navigate = useNavigate();
   const [pictAvatar, setPictAvatar] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,7 +67,7 @@ const Header = ({ token, setToken }) => {
               <IoHeart /> Favorites
             </NavLink>
           )}
-          {pictAvatar && (
+          {token && (
             <div className="menu">
               <img
                 src={pictAvatar}
@@ -89,7 +89,11 @@ const Header = ({ token, setToken }) => {
                     </NavLink>
                   </li>
                 )}
-                <li>
+                <li
+                  onClick={() => {
+                    setModal("profil");
+                  }}
+                >
                   <IoPerson /> Profil
                 </li>
                 <li>

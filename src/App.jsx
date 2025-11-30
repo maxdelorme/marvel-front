@@ -25,7 +25,7 @@ function App() {
   return (
     <>
       <Router>
-        <Header token={token} setToken={setToken} />
+        <Header token={token} setToken={setToken} setModal={setModal} />
         <main>
           <div className="container">
             <FavorisProvider token={token}>
@@ -57,7 +57,12 @@ function App() {
           </div>
         </main>
         {modal && (
-          <Modal modal={modal} setModal={setModal} setToken={setToken}></Modal>
+          <Modal
+            token={token}
+            modal={modal}
+            setModal={setModal}
+            setToken={setToken}
+          ></Modal>
         )}
       </Router>
     </>
