@@ -82,6 +82,10 @@ header {
       li:hover {
         background-image: linear-gradient(color-mix(in oklab, var(--primary) 80%, #00000080 50%), color-mix(in oklab, var(--primary) 80%, #00000080 100%));
       }
+      
+      li:has(button):hover {
+        background-image: none;
+      }
     }
     
     .menu ul.close {

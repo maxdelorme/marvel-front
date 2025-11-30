@@ -5,7 +5,7 @@ import { IoHeart } from "react-icons/io5";
 import axios from "axios";
 import { backURL } from "../../utils/settings";
 import { useEffect, useState } from "react";
-import useWindowDimensions from "../../../../backend/utils/useWindowSize";
+import useWindowDimensions from "../../utils/useWindowSize";
 
 const Header = ({ token, setToken }) => {
   const navigate = useNavigate();
@@ -13,7 +13,6 @@ const Header = ({ token, setToken }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // on big device all the menu should be visible
   const { height, width } = useWindowDimensions();
-
   const disconnect = async () => {
     try {
       await axios.get(backURL + "/user/disconnect", {
@@ -62,7 +61,7 @@ const Header = ({ token, setToken }) => {
         <nav>
           <NavLink to="/">Personnages</NavLink>
           <NavLink to="/comics">comics</NavLink>
-          {width > 360 && (
+          {(width > 400 || !token) && (
             <NavLink to="/favorites">
               <IoHeart /> Favorites
             </NavLink>
@@ -82,7 +81,7 @@ const Header = ({ token, setToken }) => {
                   setIsMenuOpen(false);
                 }}
               >
-                {width <= 360 && (
+                {width <= 400 && (
                   <li>
                     <NavLink to="/favorites">
                       <IoHeart /> Favorites
