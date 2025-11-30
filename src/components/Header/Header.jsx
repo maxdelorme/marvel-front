@@ -5,10 +5,14 @@ import { IoHeart } from "react-icons/io5";
 import axios from "axios";
 import { backURL } from "../../utils/settings";
 import { useEffect, useState } from "react";
+import useWindowDimensions from "../../../../backend/utils/useWindowSize";
 
 const Header = ({ token, setToken }) => {
   const navigate = useNavigate();
   const [pictAvatar, setPictAvatar] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // on big device all the menu should be visible
+  const { height, width } = useWindowDimensions();
 
   const disconnect = async () => {
     try {
@@ -25,6 +29,7 @@ const Header = ({ token, setToken }) => {
     navigate("/");
     setToken(null);
   };
+
   useEffect(() => {
     getUser();
   }, [token]);
@@ -47,6 +52,7 @@ const Header = ({ token, setToken }) => {
       setPictAvatar(null);
     }
   };
+
   return (
     <header>
       <div className="container">
@@ -56,15 +62,43 @@ const Header = ({ token, setToken }) => {
         <nav>
           <NavLink to="/">Personnages</NavLink>
           <NavLink to="/comics">comics</NavLink>
-          <NavLink to="/favorites">
-            <IoHeart /> Favorites
-          </NavLink>
-          {token && (
-            <button onClick={disconnect} className="fill-primary">
-              Se déconnecter
-            </button>
+          {width > 360 && (
+            <NavLink to="/favorites">
+              <IoHeart /> Favorites
+            </NavLink>
           )}
-          {pictAvatar && <img src={pictAvatar} alt="image avatar" />}
+          {pictAvatar && (
+            <div className="menu">
+              <img
+                src={pictAvatar}
+                alt="image avatar"
+                onClick={() => {
+                  setIsMenuOpen(!isMenuOpen);
+                }}
+              />
+              <ul
+                className={isMenuOpen ? "open" : "close"}
+                onMouseLeave={() => {
+                  setIsMenuOpen(false);
+                }}
+              >
+                {width <= 360 && (
+                  <li>
+                    <NavLink to="/favorites">
+                      <IoHeart /> Favorites
+                    </NavLink>
+                  </li>
+                )}
+                <li>Profil</li>
+                <li>
+                  {" "}
+                  <button onClick={disconnect} className="fill-primary">
+                    Se déconnecter
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
         </nav>
       </div>
     </header>

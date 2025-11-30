@@ -59,5 +59,34 @@ header {
     img:hover {
       border-color: var(--primary);
     }
+    
+    .menu {
+      position: relative;
+    }
+    
+    .menu ul {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      right: 0;
+      background-color: black;
+      border: 1px dotted darkgray;
+      padding: .2rem;
+      li {
+        padding: 0.2rem;
+        text-wrap: nowrap;
+        border-radius: .2rem;
+      }
+      
+      li:hover {
+        background-image: linear-gradient(color-mix(in oklab, var(--primary) 80%, #00000080 50%), color-mix(in oklab, var(--primary) 80%, #00000080 100%));
+      }
+    }
+    
+    .menu ul.close {
+      display: none;
+    }
+    
   }
 }
