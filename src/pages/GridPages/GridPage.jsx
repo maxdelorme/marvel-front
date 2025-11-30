@@ -95,8 +95,10 @@ const GridPage = ({
         );
       }
     };
-
-    getData();
+    const timeoutId = setTimeout(getData, 100);
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [search, page]);
 
   // comme on peut changer de page via le slider, et les boutons
