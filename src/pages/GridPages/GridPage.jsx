@@ -49,7 +49,7 @@ const GridPage = ({
   useEffect(() => {
     const getData = async () => {
       try {
-        const query = backURL + prepareSearchValue(autocomplete);
+        const query = backURL + prepareSearchValue(autocomplete) + "&limit=10";
         // On va chercher les data sur le back
         const response = await axios.get(query);
         const responseList = response.data.results.map((item) => {
