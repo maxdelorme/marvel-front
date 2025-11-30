@@ -95,7 +95,14 @@ const FavoritesPages = ({ modal, setModal, token }) => {
               <h2>{partie.title}</h2>
               <div className="grid">
                 {partie.listDetail.map((item) => {
-                  return <Card key={item._id} item={item}></Card>;
+                  return (
+                    <Card
+                      key={item._id}
+                      item={item}
+                      token={token}
+                      setModal={setModal}
+                    ></Card>
+                  );
                 })}
               </div>
             </div>
